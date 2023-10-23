@@ -1,5 +1,6 @@
 import pygame, sys
 from Settings import *
+from Debug import debug
 
 class Game:
     def __init__(self):
@@ -15,8 +16,9 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                    
+
             self.screen.fill("black")
+            debug("")
             pygame.display.update()
             self.clock.tick(FPS)
 
