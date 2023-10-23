@@ -1,13 +1,18 @@
 import pygame, sys
 from Settings import *
 from Debug import debug
+from Level import level 
 
 class Game:
     def __init__(self):
         pygame.init()
         # comment créer l'écran de l'appli
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        #set caption est basiquement le nom de l'appli
+        pygame.display.set_caption("The legend of Williams")
         self.clock = pygame.time.Clock()
+
+        self.level = level()
 
     def run(self):
         while True:
@@ -18,6 +23,7 @@ class Game:
                     sys.exit()
 
             self.screen.fill("black")
+            self.level.run()
             debug("")
             pygame.display.update()
             self.clock.tick(FPS)
