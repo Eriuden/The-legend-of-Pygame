@@ -1,5 +1,4 @@
 import pygame
-from pygame.sprite import _Group
 from Settings import *
 
 class Tile(pygame.sprite.Sprite):
