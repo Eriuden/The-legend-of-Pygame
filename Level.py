@@ -32,7 +32,11 @@ class Level:
                 if col == "x" :
                     tile((x,y), [self.visible_sprites, self.obstacles_sprites])
                 if col =="p" :
-                    self. player = player((x,y), [self.visible_sprites])
+                    # si on ne mets pas en array les obstacles, c'est car le joueur
+                    # contrairement aux visibles, ne peut aller dedans
+                    # ils ne correspondent aux paramètres groups
+                    # qui de par son nom nous laisse deviner l'array, et sont un autre paramètre
+                    self. player = player((x,y), [self.visible_sprites], self.obstacles_sprites)
 
     def run(self):
         #mise à jour du jeu
