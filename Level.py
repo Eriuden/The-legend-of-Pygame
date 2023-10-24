@@ -1,5 +1,8 @@
 import pygame
 from Settings import *
+from Tile import tile
+from Player import player
+from Debug import debug
 
 class Level:
     def __init__(self):
@@ -26,9 +29,13 @@ class Level:
                 # et y car les lignes sont empilées de haut en bas
                 x = col_index * TILESIZE
                 y = row_index * TILESIZE
-                if col
-
+                if col == "x" :
+                    tile((x,y), [self.visible_sprites, self.obstacles_sprites])
+                if col =="p" :
+                    self. player = player((x,y), [self.visible_sprites])
 
     def run(self):
         #mise à jour du jeu
-        pass
+        self.visible_sprites.draw(self.display_surface)
+        self.visible_sprites.update()
+        debug(self.player.direction)
