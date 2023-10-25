@@ -1,4 +1,6 @@
+from typing import Iterable, Union
 import pygame
+from pygame.sprite import AbstractGroup
 from Settings import *
 from Tile import tile
 from Player import player
@@ -8,7 +10,7 @@ class Level:
     def __init__(self):
 
         #surface d'affichage
-        self.display_surface = pygame.display.get_surface()
+        self.display_surface = ySortCameraGroup()
         
         #Sprites
         self.visible_sprites = pygame.sprite.Group()
@@ -40,6 +42,18 @@ class Level:
 
     def run(self):
         #mise à jour du jeu
-        self.visible_sprites.draw(self.display_surface)
+        self.visible_sprites.custom_draw()
         self.visible_sprites.update()
         debug(self.player.direction)
+
+class ySortCameraGroup(pygame.sprite.Group):
+    def __init__(self):
+
+        super().__init__()
+        self.display_surface = pygame.display.get_surface()
+
+    def custom_draw(self):
+        for sprite in self.sprites():
+            self.display_surface.blit(sprite.image, sprite.rect)
+
+        
