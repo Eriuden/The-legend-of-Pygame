@@ -38,7 +38,7 @@ class Level:
                     # contrairement aux visibles, ne peut aller dedans
                     # ils ne correspondent aux paramètres groups
                     # qui de par son nom nous laisse deviner l'array, et sont un autre paramètre
-                    self. player = player((x,y), [self.visible_sprites], self.obstacles_sprites)
+                    self. player = player((2000,1400), [self.visible_sprites], self.obstacles_sprites)
 
     def run(self):
         #mise à jour du jeu
@@ -55,10 +55,17 @@ class ySortCameraGroup(pygame.sprite.Group):
         self.half_height = self.display_surface.get_size()[1]//2
         self.offset = pygame.math.Vector2()
 
+        #Sol
+        self.floor_surface = pygame.image.load("../graphics/tilemap.ground.png").convert()
+        self.floor_rect = self.floor_surface.get_rect(topleft = (0,0))
+
     def custom_draw(self):
         # La caméra suit l'avancée du perso
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
+
+        floor_offset_position = self.floor_rect.topleft - self.offset
+        self.display_surface.blit(self.floor_surface, floor_offset_position)
 
         for sprite in sorted(self.sprites(),key = lambda sprite: sprite.rect.centery):
             offset_position = sprite.rect.topleft - self.offset
