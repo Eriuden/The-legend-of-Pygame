@@ -9,6 +9,7 @@ class player(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = pygame.image.load("../graphics/test/player.png").convert_alpha()
         self.rect = self.image.get_rect(topleft = position)
+        self.hitbox = self.rect.inflate(0,-25)
 
         self.direction = pygame.math.Vector2()
         self.speed = 5
@@ -40,11 +41,13 @@ class player(pygame.sprite.Sprite):
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
 
-        self.rect.x += self.direction.x * speed
+        self.hitbox.x += self.direction.x * speed
         self.collision("horizontal")
 
-        self.rect.y += self.direction.y * speed
+        self.hitbox.y += self.direction.y * speed
         self.collision("vertical")
+
+        self.rect.center = self.hitbox.center
 
     def collision(self,direction):
         # Donc si un sprite du joueur rentre en collision avec celui d'un obstacle
@@ -59,11 +62,11 @@ class player(pygame.sprite.Sprite):
         
         if direction =="vertical":
             for sprite in self.obstacle_sprites :
-                if sprite.rect.colliderect(self.rect):
+                if sprite.hitbox.colliderect(self.hitbox):
                     if self.direction.y > 0:
-                        self.rect.bottom = sprite.rect.top
+                        self.hitbox.bottom = sprite.hitbox.top
                     if self.direction.y < 0:
-                        self.rect.top = sprite.rect.bottom
+                        self.hitbox.top = sprite.hitbox.bottom
 
     def update(self):
         self.input()

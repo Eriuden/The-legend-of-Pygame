@@ -7,7 +7,7 @@ class tile(pygame.sprite.Sprite):
 
         self.image = pygame.image.load("../graphics/test/rock.png").convert_alpha()
         self.rect = self.image.get_rect(topleft = position)
-
-        self.image = pygame.image.load("../graphics/test/rock.png")
-        self.rect = self.image.get_rect(topleft = position)
+        #inflate permet de réduire la hitbox pour une collision plus propre
+        # par exemple, avoir quand même la tête face à l'obstacle en haut
+        self.hitbox = self.rect.inflate(0,-10)
 
