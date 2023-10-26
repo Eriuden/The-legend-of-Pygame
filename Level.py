@@ -26,7 +26,12 @@ class Level:
     def create_map(self):
 
         layouts = {
-            "boundary": import_csv_layout("../map/map_FloorBlcoks.csv")
+            "boundary": import_csv_layout("../map/map_FloorBlcoks.csv"),
+            "grass" :import_csv_layout("../map/map_Grass.csv"),
+            "object" :import_csv_layout("../map/map_Objects.csv")
+        }
+        graphics = {
+            "grass": import_folder("../graphics/Grass")
         }
 
         for style, layout in layouts.items():
@@ -42,6 +47,11 @@ class Level:
 
                     if style == "boundary":
                         tile((x,y), [self.obstacles_sprites], "invisible")
+                    if style =="grass":
+                        pass
+                    if style =="object":
+                        pass
+
                 if col == "x" :
                     tile((x,y), [self.visible_sprites, self.obstacles_sprites])
                 if col =="p" :
