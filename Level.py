@@ -30,17 +30,18 @@ class Level:
         }
 
         for style, layout in layouts.items():
-            for row_index, row in enumerate(WORLD_MAP):
+            for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):
                     #ca semble trompeur, mais c'est logique
                     # x pour les colonnes car celle tout à gauche, puis la seconde à 
                     # gauche, etc
                     # et y car les lignes sont empilées de haut en bas
-                    x = col_index * TILESIZE
-                    y = row_index * TILESIZE
+                    if col !="-1":
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
 
                     if style == "boundary":
-                        tile((x,y), [self.visible_sprites, self.obstacles_sprites], "invisible")
+                        tile((x,y), [self.obstacles_sprites], "invisible")
                 if col == "x" :
                     tile((x,y), [self.visible_sprites, self.obstacles_sprites])
                 if col =="p" :

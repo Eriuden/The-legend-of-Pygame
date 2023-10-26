@@ -8,3 +8,4 @@ def import_csv_layout(path):
         for row in layout:
             terrain_map(list(row))
         return terrain_map
+
