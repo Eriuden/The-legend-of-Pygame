@@ -6,6 +6,7 @@ from Tile import tile
 from Player import player
 from Debug import debug
 from Support import *
+from random import choice
 
 class Level:
     def __init__(self):
@@ -18,8 +19,7 @@ class Level:
         self.obstacles_sprites = pygame.sprite.Group()
 
         self.create_map()
-
-    # le MASSIF array de la world map a faire plus tard en settings...
+        
     # enumerate est conseillé pour indexer un array
     # en énumerant ainsi les lignes, on peut faire la même avec les colonnes,
     # contenues justement dans les lignes comme dans un array
@@ -31,7 +31,8 @@ class Level:
             "object" :import_csv_layout("../map/map_Objects.csv")
         }
         graphics = {
-            "grass": import_folder("../graphics/Grass")
+            "grass": import_folder("../graphics/Grass"),
+            "objects": import_folder("../graphics/objects")
         }
 
         for style, layout in layouts.items():
@@ -47,10 +48,15 @@ class Level:
 
                     if style == "boundary":
                         tile((x,y), [self.obstacles_sprites], "invisible")
+
                     if style =="grass":
-                        pass
+                        random_grass_image = choice(graphics["grass"])
+                        tile((x,y, [self.visible_sprites, self.obstacles_sprites], "grass", random_grass_image))
+
                     if style =="object":
-                        pass
+                        surface = graphics["objects"][int(col)]
+                        tile((x,y),[self.visible_sprites, self.obstacles_sprites], "object", surface)
+                        
 
                 if col == "x" :
                     tile((x,y), [self.visible_sprites, self.obstacles_sprites])
