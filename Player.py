@@ -13,6 +13,9 @@ class player(pygame.sprite.Sprite):
 
         self.direction = pygame.math.Vector2()
         self.speed = 5
+        self.attacking = False
+        self.attack_cooldown = 400
+        self.attack_time = None
 
         self.obstacle_sprites = obstacle_sprites
 
@@ -23,6 +26,7 @@ class player(pygame.sprite.Sprite):
         # celui ci sert à stopper le mouvement si on arrête d'actionner
         # mais comme il arrête le if statement, on en fait un pour chaque dimension
 
+        #mouvement basiques
         if keys[pygame.K_UP]:
             self.direction.y = -1
         elif keys[pygame.K_DOWN]:
@@ -36,6 +40,15 @@ class player(pygame.sprite.Sprite):
             self.direction.x = 1
         else:
             self.direction.x = 0
+        #attaques, à noter, pygame ne semble pas avoir pensé aux boutons de la souris...
+        if keys[pygame.K_SPACE] and not self.attacking:
+            self.attacking = True
+            # le get ticks de cooldown fonctionnant indéfiniment, il pourra recharger celui ci, censé fonctionner qu'une fois à la base
+            self.attack_time = pygame.time.get_ticks()
+        #sorts
+        if keys[pygame.K_LSHIFT]and not self.attacking:
+            self.attacking = True
+            self.attack_time = pygame.time.get_ticks()
 
     def move(self,speed):
         if self.direction.magnitude() != 0:
@@ -68,6 +81,14 @@ class player(pygame.sprite.Sprite):
                     if self.direction.y < 0:
                         self.hitbox.top = sprite.hitbox.bottom
 
+    def cooldown(self):
+        current_time = pygame.time.get_ticks()
+
+        if self.attacking:
+            if current_time - self.attack_time >= self.attack_cooldown:
+                self.attacking = False
+
     def update(self):
         self.input()
+        self.cooldown()
         self.move(self.speed)
