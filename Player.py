@@ -6,7 +6,7 @@ from Support import import_folder
 class player(pygame.sprite.Sprite):
 
     #rappel, init, c'est là où on inscrit les "variables" de self
-    def __init__(self, position, groups, obstacle_sprites):
+    def __init__(self, position, groups, obstacle_sprites, attack):
         super().__init__(groups)
         self.image = pygame.image.load("../graphics/test/player.png").convert_alpha()
         self.rect = self.image.get_rect(topleft = position)
@@ -22,8 +22,11 @@ class player(pygame.sprite.Sprite):
         self.attacking = False
         self.attack_cooldown = 400
         self.attack_time = None
+        self.attack = attack()
 
         self.obstacle_sprites = obstacle_sprites
+
+        
     
     def import_player_assets(self):
         character_path = "../graphics/player"
@@ -66,6 +69,7 @@ class player(pygame.sprite.Sprite):
                 self.attacking = True
                 # le get ticks de cooldown fonctionnant indéfiniment, il pourra recharger celui ci, censé fonctionner qu'une fois à la base
                 self.attack_time = pygame.time.get_ticks()
+                self.attack()
             #sorts
             if keys[pygame.K_LSHIFT]:
                 self.attacking = True

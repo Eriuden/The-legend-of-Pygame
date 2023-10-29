@@ -7,6 +7,7 @@ from Player import player
 from Debug import debug
 from Support import *
 from random import choice
+from weapon import Weapon
 
 class Level:
     def __init__(self):
@@ -57,16 +58,15 @@ class Level:
                         surface = graphics["objects"][int(col)]
                         tile((x,y),[self.visible_sprites, self.obstacles_sprites], "object", surface)
                         
-
-                if col == "x" :
-                    tile((x,y), [self.visible_sprites, self.obstacles_sprites])
-                if col =="p" :
                     # si on ne mets pas en array les obstacles, c'est car le joueur
                     # contrairement aux visibles, ne peut aller dedans
                     # ils ne correspondent aux paramètres groups
                     # qui de par son nom nous laisse deviner l'array, et sont un autre paramètre
-                    self. player = player((2000,1400), [self.visible_sprites], self.obstacles_sprites)
+        self. player = player((2000,1400), [self.visible_sprites], self.obstacles_sprites, self.attack)
 
+    def attack(self):
+        Weapon(self. player, [self.visible_sprites])
+    
     def run(self):
         #mise à jour du jeu
         self.visible_sprites.custom_draw(self.player)
