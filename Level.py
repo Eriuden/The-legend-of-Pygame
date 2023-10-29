@@ -19,6 +19,8 @@ class Level:
         self.visible_sprites = pygame.sprite.Group()
         self.obstacles_sprites = pygame.sprite.Group()
 
+        self.current_attack = None
+
         self.create_map()
         
     # enumerate est conseillé pour indexer un array
@@ -62,10 +64,16 @@ class Level:
                     # contrairement aux visibles, ne peut aller dedans
                     # ils ne correspondent aux paramètres groups
                     # qui de par son nom nous laisse deviner l'array, et sont un autre paramètre
-        self. player = player((2000,1400), [self.visible_sprites], self.obstacles_sprites, self.attack)
+        self. player = player((2000,1400), [self.visible_sprites], self.obstacles_sprites, self.attack, self.destroy_weapon)
 
     def attack(self):
-        Weapon(self. player, [self.visible_sprites])
+        self.current_attack = Weapon(self. player, [self.visible_sprites])
+    
+    def destroy_weapon(self):
+        # si une attaque est en cours, on la supprime, et valeur nulle
+        if self.current_attack:
+            self.current_attack.kill()
+        self.current_attack = None
     
     def run(self):
         #mise à jour du jeu

@@ -6,7 +6,7 @@ from Support import import_folder
 class player(pygame.sprite.Sprite):
 
     #rappel, init, c'est là où on inscrit les "variables" de self
-    def __init__(self, position, groups, obstacle_sprites, attack):
+    def __init__(self, position, groups, obstacle_sprites, attack, destroy_attack):
         super().__init__(groups)
         self.image = pygame.image.load("../graphics/test/player.png").convert_alpha()
         self.rect = self.image.get_rect(topleft = position)
@@ -22,9 +22,16 @@ class player(pygame.sprite.Sprite):
         self.attacking = False
         self.attack_cooldown = 400
         self.attack_time = None
-        self.attack = attack()
-
         self.obstacle_sprites = obstacle_sprites
+
+        self.attack = attack()
+        self.destroy_attack = destroy_attack
+        self.weapon_index = 0
+        self.weapon = list(weapon_data.keys())[self.weapon_index]
+        self.can_switch_weapon = True
+        self.weapon_switch_time = None
+        self.switch_duration_cooldown = 200
+
 
         
     
@@ -74,6 +81,19 @@ class player(pygame.sprite.Sprite):
             if keys[pygame.K_LSHIFT]:
                 self.attacking = True
                 self.attack_time = pygame.time.get_ticks()
+
+            if keys[pygame.K_q] and self.can_switch_weapon:
+                self.can_switch_weapon = False
+                self.weapon_switch_time = pygame.time.get_ticks()
+
+                if self.weapon_index < len(list(weapon_data.keys())) -1:
+                    self.weapon_index += 1
+                else:
+                    self.weapon_index = 0
+
+                self.weapon = list(weapon_data.keys)[self.weapon_index]
+
+
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -127,9 +147,18 @@ class player(pygame.sprite.Sprite):
     def cooldown(self):
         current_time = pygame.time.get_ticks()
 
+        #empécher d'attaquer avant la fin de l'attaque (on est pas dans SF2 !)
+
         if self.attacking:
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.attacking = False
+                self.destroy_attack()
+
+        # Pour permettre le switch d'arme après le cooldown du switch
+
+        if not self.can_switch_weapon:
+            if current_time - self.weapon_switch_time >= self.switch_duration_cooldown:
+                self.can_switch_weapon = True
                 
     def animate(self):
         animation = self.animations[self.status]
