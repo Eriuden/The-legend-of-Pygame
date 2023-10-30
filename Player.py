@@ -32,6 +32,11 @@ class player(pygame.sprite.Sprite):
         self.weapon_switch_time = None
         self.switch_duration_cooldown = 200
 
+        self.stats = {"health" : 100, "energy": 60, "strength": 10, "wisdom": 4, "agility": 6}
+        self.health = self.stats["health"]
+        self.energy = self.stats["energy"]
+        self.exp = 100
+        self.speed = self.stats["agility"]
 
         
     
@@ -92,8 +97,6 @@ class player(pygame.sprite.Sprite):
                     self.weapon_index = 0
 
                 self.weapon = list(weapon_data.keys)[self.weapon_index]
-
-
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:

@@ -8,6 +8,7 @@ from Debug import debug
 from Support import *
 from random import choice
 from weapon import Weapon
+from ui import UI
 
 class Level:
     def __init__(self):
@@ -22,6 +23,8 @@ class Level:
         self.current_attack = None
 
         self.create_map()
+
+        self.ui = UI()
         
     # enumerate est conseillé pour indexer un array
     # en énumerant ainsi les lignes, on peut faire la même avec les colonnes,
@@ -79,6 +82,7 @@ class Level:
         #mise à jour du jeu
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
+        self.ui.display(self.player)
 
 class ySortCameraGroup(pygame.sprite.Group):
     def __init__(self):
