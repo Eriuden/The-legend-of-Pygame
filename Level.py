@@ -74,7 +74,7 @@ class Level:
         self.current_attack = Weapon(self. player, [self.visible_sprites])
 
     def cast_spell(self, style, strength, cost):
-
+        print("spell")
         
     def destroy_weapon(self):
         # si une attaque est en cours, on la supprime, et valeur nulle

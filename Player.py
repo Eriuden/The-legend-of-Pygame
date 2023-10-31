@@ -186,6 +186,10 @@ class player(pygame.sprite.Sprite):
         if not self.can_switch_weapon:
             if current_time - self.weapon_switch_time >= self.switch_duration_cooldown:
                 self.can_switch_weapon = True
+
+        if not self.can_switch_spell:
+            if current_time - self.spell_switch_time >= self.switch_duration_cooldown:
+                self.can_switch_spell = True
                 
     def animate(self):
         animation = self.animations[self.status]
