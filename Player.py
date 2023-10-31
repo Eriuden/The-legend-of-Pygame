@@ -98,6 +98,7 @@ class player(pygame.sprite.Sprite):
                 cost = list(spell_data.values())[self.spell_index]["cost"]
                 self.cast_spell(style,strength, cost)
 
+            # switch armes
             if keys[pygame.K_q] and self.can_switch_weapon:
                 self.can_switch_weapon = False
                 self.weapon_switch_time = pygame.time.get_ticks()
@@ -108,6 +109,18 @@ class player(pygame.sprite.Sprite):
                     self.weapon_index = 0
 
                 self.weapon = list(weapon_data.keys)[self.weapon_index]
+
+            # switch sorts
+            if keys[pygame.K_e] and self.can_switch_spell:
+                self.can_switch_spell = False
+                self.spell_switch_time = pygame.time.get_ticks()
+
+                if self.spell_index < len(list(spell_data.keys())) -1:
+                    self.spell_index += 1
+                else:
+                    self.spell_index = 0
+
+                self.spell = list(spell_data.keys)[self.spell_index]
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
