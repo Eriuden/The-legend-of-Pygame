@@ -39,14 +39,17 @@ class UI:
 
         self.display_surface.blit(text_surface, text_rect)
 
-    def selection_box(self,left,top):
+    def selection_box(self,left,top, switched):
         bg_rect = pygame.Rect(left,top, ITEM_BOX_SIZE)
         pygame.draw.rect(self.display_surface, UI_BGCOLOR, bg_rect)
-        pygame.drax.rect(self.display_surface, UI_BORDERCOLOR, bg_rect, 3)
+        if switched:
+            pygame.drax.rect(self.display_surface, UI_BORDERCOLOR_ACTIVE, bg_rect, 3)
+        else:
+            pygame.drax.rect(self.display_surface, UI_BORDERCOLOR, bg_rect, 3)
         return bg_rect
 
-    def weapon_overlay(self,weapon_index):
-        bg_rect = self.selection_box(10,630)
+    def weapon_overlay(self,weapon_index,switched):
+        bg_rect = self.selection_box(10,630,switched)
         weapon_surf = self.weapon_graphics[weapon_index]
         weapon_rect = weapon_surf.get_rect(bg_rect.center)
         self.display_surface.blit(weapon_surf,weapon_rect)
@@ -58,7 +61,7 @@ class UI:
 
         self.show_exp(player.exp)
 
-        self.weapon_overlay(player.weapon_index)
+        self.weapon_overlay(player.weapon_index, not player.can_switch_weapon)
 
         self.selection_box(10,650) #l'arme
         self.selection_box(80,635) #le sort
