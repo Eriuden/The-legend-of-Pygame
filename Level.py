@@ -67,11 +67,15 @@ class Level:
                     # contrairement aux visibles, ne peut aller dedans
                     # ils ne correspondent aux paramètres groups
                     # qui de par son nom nous laisse deviner l'array, et sont un autre paramètre
-        self. player = player((2000,1400), [self.visible_sprites], self.obstacles_sprites, self.attack, self.destroy_weapon)
+        self. player = player((2000,1400), [self.visible_sprites], self.obstacles_sprites,
+                               self.attack, self.destroy_weapon, self.cast_spell)
 
     def attack(self):
         self.current_attack = Weapon(self. player, [self.visible_sprites])
-    
+
+    def cast_spell(self, style, strength, cost):
+
+        
     def destroy_weapon(self):
         # si une attaque est en cours, on la supprime, et valeur nulle
         if self.current_attack:

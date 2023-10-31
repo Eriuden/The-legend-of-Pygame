@@ -28,3 +28,8 @@ weapon_data = {
     "rapier" : {"cooldown": 50, "damage": 8, "graphic": "../graphics/weapons/rapier/full.png"},
     "sai" : {"cooldown": 80, "damage": 10, "graphic": "../graphics/weapons/sai/full.png"},
 }
+
+spell_data = {
+    "flame" : {"strength": 7, "cost": 15, "graphic": "../graphics/particles/flame/fire.png"},
+    "heal" : {"strength": 20, "damage": 15, "graphic": "../graphics/particles/heal/heal.png"}
+}

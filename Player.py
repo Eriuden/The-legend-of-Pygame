@@ -6,7 +6,7 @@ from Support import import_folder
 class player(pygame.sprite.Sprite):
 
     #rappel, init, c'est là où on inscrit les "variables" de self
-    def __init__(self, position, groups, obstacle_sprites, attack, destroy_attack):
+    def __init__(self, position, groups, obstacle_sprites, attack, destroy_attack, cast_spell):
         super().__init__(groups)
         self.image = pygame.image.load("../graphics/test/player.png").convert_alpha()
         self.rect = self.image.get_rect(topleft = position)
@@ -31,6 +31,13 @@ class player(pygame.sprite.Sprite):
         self.can_switch_weapon = True
         self.weapon_switch_time = None
         self.switch_duration_cooldown = 200
+
+        self.cast_spell = cast_spell
+        self.spell_index = 0
+        self.spell = list(spell_data.keys())[self.spell_index]
+        self.can_switch_spell = True
+        self.spell_switch_time = None 
+        
 
         self.stats = {"health" : 100, "energy": 60, "strength": 10, "wisdom": 4, "agility": 6}
         self.health = self.stats["health"]
@@ -86,6 +93,10 @@ class player(pygame.sprite.Sprite):
             if keys[pygame.K_LSHIFT]:
                 self.attacking = True
                 self.attack_time = pygame.time.get_ticks()
+                style = list(spell_data.keys())[self.spell_index]
+                strength = list(spell_data.values())[self.spell_index]["strength"] + self.stats["wisdom"]
+                cost = list(spell_data.values())[self.spell_index]["cost"]
+                self.cast_spell(style,strength, cost)
 
             if keys[pygame.K_q] and self.can_switch_weapon:
                 self.can_switch_weapon = False
