@@ -16,6 +16,10 @@ class monsters(pygame.sprite.Sprite):
 
     def import_graphics(self,name):
         self.animations = {"idle": [], "move":[], "attack": []}
+        main_path = f"../graphics/monsters/{name}"
+        for animation in self.animations.keys():
+            self.animations[animation]
+
     def move(self,speed):
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
