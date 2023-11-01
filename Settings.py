@@ -36,8 +36,8 @@ spell_data = {
 
 #Monstres
 monster_data = {
-    "squid" : {"health": 100, "exp": 15, "attack_type":"slash", "attack_sound": "../audio/attack/slash.wav"},
-    "racoon" : {"health": 400, "exp": 30, "attack_type":"claw", "attack_sound": "../audio/attack/claw.wav"},
-    "spirit" : {"health": 300, "exp": 20, "attack_type":"thunder", "attack_sound": "../audio/attack/thunder.wav"},
-    "bamboo" : {"health": 50, "exp": 8, "attack_type":"razor_leaf", "attack_sound": "../audio/attack/razor_leaf.wav"},
+    "squid" : {"health": 100, "exp": 20, "attack_type":"slash", "attack_sound": "../audio/attack/slash.wav", "speed": 3, "resistance": 3, "attack_radius" : 80, "notice_radius": 360},
+    "racoon" : {"health": 300, "exp": 40, "attack_type":"claw", "attack_sound": "../audio/attack/claw.wav", "speed": 2, "resistance": 3, "attack_radius" : 120, "notice_radius": 400},
+    "spirit" : {"health": 100, "exp": 8, "attack_type":"thunder", "attack_sound": "../audio/attack/thunder.wav", "speed": 4, "resistance": 3, "attack_radius" : 60, "notice_radius": 350},
+    "bamboo" : {"health": 70, "exp": 6, "attack_type":"razor_leaf", "attack_sound": "../audio/attack/razor_leaf.wav", "speed": 3, "resistance": 3, "attack_radius" : 50, "notice_radius": 300},
 }
