@@ -33,3 +33,11 @@ spell_data = {
     "flame" : {"strength": 7, "cost": 15, "graphic": "../graphics/particles/flame/fire.png"},
     "heal" : {"strength": 20, "damage": 15, "graphic": "../graphics/particles/heal/heal.png"}
 }
+
+#Monstres
+monster_data = {
+    "squid" : {"health": 100, "exp": 15, "attack_type":"slash", "attack_sound": "../audio/attack/slash.wav"},
+    "racoon" : {"health": 400, "exp": 30, "attack_type":"claw", "attack_sound": "../audio/attack/claw.wav"},
+    "spirit" : {"health": 300, "exp": 20, "attack_type":"thunder", "attack_sound": "../audio/attack/thunder.wav"},
+    "bamboo" : {"health": 50, "exp": 8, "attack_type":"razor_leaf", "attack_sound": "../audio/attack/razor_leaf.wav"},
+}
