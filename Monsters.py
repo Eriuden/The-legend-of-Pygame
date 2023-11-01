@@ -1,12 +1,21 @@
 import pygame
+from Settings import *
 
 class monsters(pygame.sprite.Sprite):
-    def __init__(self, groups):
+    def __init__(self, groups, monster_name, position):
         super().__init__(groups)
+        self.sprite_type = "ennemy"
+
+
+        self.import_graphics(monster_name)
+        self.image = pygame.Surface((64,64)) 
+        self.rect = self.image.get_rect(topleft = position)
         self.frame_index = 0
         self.anim_speed = 0.15
         self.direction = pygame.math.Vector2()
 
+    def import_graphics(self,name):
+        self.animations = {"idle": [], "move":[], "attack": []}
     def move(self,speed):
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
