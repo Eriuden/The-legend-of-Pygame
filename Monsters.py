@@ -34,8 +34,31 @@ class monsters(pygame.sprite.Sprite):
         for animation in self.animations.keys():
             self.animations[animation] = import_folder(main_path + animation)
 
+    def get_player_distance_direction(self,player):
+        ennemy_vector = pygame.math.Vector2(self.rect.center)
+        player_vector = pygame.math.Vector2(player.rect.center)
+        distance = (player_vector - ennemy_vector).magnitude()
+
+        if distance > 0:
+            direction = (player_vector - ennemy_vector).normalize()
+        else:
+            direction = pygame.math.Vector2()
+
+        return (distance, direction)
+
+    def get_status(self, player):
+        distance = get_player_distance_direction(player)[0]
+
+        #ennemi proche, attaque, si loin mais nous voit, bouge, mais si on est hors de vue pour lui, attends
+        if distance <= self.attack_radius:
+            self.status = "attack"
+        elif distance <= self.notice_radius:
+            self.status = "move"
+        else:
+            self.status ="idle"
     def update(self):
         self.move(self.speed)
+        self.get_status(player)
 
     def move(self,speed):
         if self.direction.magnitude() != 0:
