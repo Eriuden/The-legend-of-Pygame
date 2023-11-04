@@ -75,7 +75,11 @@ class Level:
                                 self.cast_spell)
 
                         else:
-                            monsters("monster", (x,y), [self.visible_sprites])
+                            if col =="390": monster_name = "bamboo"
+                            elif col == "391" : monster_name = "spirit"
+                            elif col == "392" : monster_name = "racoon"
+                            else: monster_name = "squid"
+                            monsters(monster_name,(x,y), [self.visible_sprites])
 
                     # si on ne mets pas en array les obstacles, c'est car le joueur
                     # contrairement aux visibles, ne peut aller dedans
