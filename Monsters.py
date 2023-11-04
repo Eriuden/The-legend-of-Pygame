@@ -47,7 +47,7 @@ class monsters(pygame.sprite.Sprite):
         return (distance, direction)
 
     def get_status(self, player):
-        distance = get_player_distance_direction(player)[0]
+        distance = self.get_player_distance_direction(player)[0]
 
         #ennemi proche, attaque, si loin mais nous voit, bouge, mais si on est hors de vue pour lui, attends
         if distance <= self.attack_radius:
@@ -56,9 +56,20 @@ class monsters(pygame.sprite.Sprite):
             self.status = "move"
         else:
             self.status ="idle"
+
+    def actions(self,player):
+        if self.status =="attack":
+            pass
+        elif self.status=="move":
+            self.direction = self.get_player_distance_direction(player)[1]
+        else:
+            self.direction = pygame.math.Vector2()
     def update(self):
         self.move(self.speed)
+        
+    def ennemy_update(self, player):
         self.get_status(player)
+        self.actions(player)
 
     def move(self,speed):
         if self.direction.magnitude() != 0:

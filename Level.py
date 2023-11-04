@@ -104,6 +104,7 @@ class Level:
         #mise à jour du jeu
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
+        self.visible_sprites.ennemy_update(self.player)
         self.ui.display(self.player)
 
 class ySortCameraGroup(pygame.sprite.Group):
@@ -131,6 +132,11 @@ class ySortCameraGroup(pygame.sprite.Group):
         for sprite in sorted(self.sprites(),key = lambda sprite: sprite.rect.centery):
             offset_position = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_position)
+
+    def ennemy_update(self,player):
+        ennemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite,"sprite_type") and sprite.sprite_type =="ennemy"]
+        for sprite in ennemy_sprites:
+            sprite.ennemy_update(player)
     
 
 
