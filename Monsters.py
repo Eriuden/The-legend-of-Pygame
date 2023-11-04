@@ -28,6 +28,11 @@ class monsters(pygame.sprite.Sprite):
         self.notice_radius = monster_info["notice_radius"]
         self.attack_type = monster_info["attack_type"]
 
+        #intéraction avec le perso
+        self.can_attack = True
+        self.attack_cooldown = 300 # potentiellement placer en dico des monstres pour en créer des plus agressifs que d'autres
+        self.attack_time = None
+
     def import_graphics(self,name):
         self.animations = {"idle": [], "move":[], "attack": []}
         main_path = f"../graphics/monsters/{name}"
@@ -37,6 +42,7 @@ class monsters(pygame.sprite.Sprite):
     def get_player_distance_direction(self,player):
         ennemy_vector = pygame.math.Vector2(self.rect.center)
         player_vector = pygame.math.Vector2(player.rect.center)
+
         distance = (player_vector - ennemy_vector).magnitude()
 
         if distance > 0:
@@ -50,7 +56,9 @@ class monsters(pygame.sprite.Sprite):
         distance = self.get_player_distance_direction(player)[0]
 
         #ennemi proche, attaque, si loin mais nous voit, bouge, mais si on est hors de vue pour lui, attends
-        if distance <= self.attack_radius:
+        if distance <= self.attack_radius and self.can_attack:
+            if self.status != "attack":
+                self.frame_index = 0
             self.status = "attack"
         elif distance <= self.notice_radius:
             self.status = "move"
@@ -59,13 +67,34 @@ class monsters(pygame.sprite.Sprite):
 
     def actions(self,player):
         if self.status =="attack":
-            pass
+            self.attack_time = pygame.time.get_ticks()
         elif self.status=="move":
             self.direction = self.get_player_distance_direction(player)[1]
         else:
             self.direction = pygame.math.Vector2()
+        
+    def animate(self):
+        animation = self.animations[self.status]
+
+        self.frame_index += self.animation_speed
+        if self.frame_index >= len(animation):
+            if self.status =="attack":
+                self.can_attack = False
+            self.frame_index = 0
+
+        self.image = animation[int(self.frame_index)]
+        self.rect = self.image.get_rect(center = self.hitbox.center)
+
+    def attacking_cooldown(self):
+        if not self.can_attack:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.attack_time >= self.attack_cooldown:
+                self.can_attack = True
+
     def update(self):
         self.move(self.speed)
+        self.animate()
+        self.attacking_cooldown()
         
     def ennemy_update(self, player):
         self.get_status(player)
