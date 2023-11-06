@@ -177,7 +177,7 @@ class player(pygame.sprite.Sprite):
         #empécher d'attaquer avant la fin de l'attaque (on est pas dans SF2 !)
 
         if self.attacking:
-            if current_time - self.attack_time >= self.attack_cooldown:
+            if current_time - self.attack_time >= self.attack_cooldown + weapon_data[self.weapon]["cooldown"]:
                 self.attacking = False
                 self.destroy_attack()
 
@@ -201,6 +201,11 @@ class player(pygame.sprite.Sprite):
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
+    def get_weapon_full_damage(self):
+        base_damage = self.stats["strength"]
+        weapon_damage = weapon_data[self.weapon]["damage"]
+        return base_damage + weapon_damage
+    
     def update(self):
         self.input()
         self.cooldown()

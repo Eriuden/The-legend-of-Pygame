@@ -22,6 +22,9 @@ class Level:
         self.obstacles_sprites = pygame.sprite.Group()
 
         self.current_attack = None
+        self.attack_sprites = pygame.sprite.Group()
+        self.attackable_sprites = pygame.sprite.Group()
+
 
         self.create_map()
 
@@ -59,11 +62,12 @@ class Level:
 
                     if style =="grass":
                         random_grass_image = choice(graphics["grass"])
-                        tile((x,y, [self.visible_sprites, self.obstacles_sprites], "grass", random_grass_image))
+                        tile((x,y,) [self.visible_sprites, self.obstacles_sprites, self.attackable_sprites], "grass", random_grass_image)
 
                     if style =="object":
                         surface = graphics["objects"][int(col)]
                         tile((x,y),[self.visible_sprites, self.obstacles_sprites], "object", surface)
+                    
                     if style == "entities":
                         if col == "394":
                             self.player = player(
@@ -79,13 +83,15 @@ class Level:
                             elif col == "391" : monster_name = "spirit"
                             elif col == "392" : monster_name = "racoon"
                             else: monster_name = "squid"
-                            monsters(monster_name,(x,y), [self.visible_sprites])
+                            monsters(monster_name,(x,y), 
+                                     [self.visible_sprites,self.attackable_sprites],
+                                     self.obstacle_sprites)
 
                     # si on ne mets pas en array les obstacles, c'est car le joueur
                     # contrairement aux visibles, ne peut aller dedans
                     # ils ne correspondent aux paramètres groups
                     # qui de par son nom nous laisse deviner l'array, et sont un autre paramètre
-        self. player = player((2000,1400), [self.visible_sprites], self.obstacles_sprites,
+        self. player = player((2000,1400), [self.visible_sprites, self.attack_sprites], self.obstacles_sprites,
                                self.attack, self.destroy_weapon, self.cast_spell)
 
     def attack(self):
@@ -106,6 +112,18 @@ class Level:
         self.visible_sprites.update()
         self.visible_sprites.ennemy_update(self.player)
         self.ui.display(self.player)
+        self.player_attack_logic()
+    
+    def player_attack_logic(self):
+        if self.attack_sprites:
+            for attack_sprite in self.attack_sprites:
+                collision_sprites = pygame.sprite.spritecollide(attack_sprite,self.attackable_sprite,False)
+                if collision_sprites:
+                    for target_sprite in collision_sprites:
+                        if target_sprite.sprite_type == "grass" :
+                            target_sprite.kill()
+                        else:
+                            target_sprite.get_damage(self.player, attack_sprite.sprite_type)
 
 class ySortCameraGroup(pygame.sprite.Group):
     def __init__(self):
