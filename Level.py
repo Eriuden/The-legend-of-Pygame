@@ -25,7 +25,6 @@ class Level:
         self.attack_sprites = pygame.sprite.Group()
         self.attackable_sprites = pygame.sprite.Group()
 
-
         self.create_map()
 
         self.ui = UI()
@@ -85,7 +84,8 @@ class Level:
                             else: monster_name = "squid"
                             monsters(monster_name,(x,y), 
                                      [self.visible_sprites,self.attackable_sprites],
-                                     self.obstacle_sprites)
+                                     self.obstacle_sprites,
+                                     self.damage_player)
 
                     # si on ne mets pas en array les obstacles, c'est car le joueur
                     # contrairement aux visibles, ne peut aller dedans
@@ -124,7 +124,11 @@ class Level:
                             target_sprite.kill()
                         else:
                             target_sprite.get_damage(self.player, attack_sprite.sprite_type)
-
+    def damage_player(self,amount,attack_type):
+        if self.player.vulnerable:
+            self.player.health -= amount 
+            self.player.vulnerable = False
+            self.player.hurt_time = pygame.time.get_ticks()
 class ySortCameraGroup(pygame.sprite.Group):
     def __init__(self):
 

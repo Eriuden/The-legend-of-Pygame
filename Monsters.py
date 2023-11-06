@@ -1,9 +1,10 @@
 import pygame
 from Settings import *
 from Support import *
+from math import sin
 
 class monsters(pygame.sprite.Sprite):
-    def __init__(self, groups, monster_name, position, obstacle_sprites):
+    def __init__(self, groups, monster_name, position, obstacle_sprites, damage_player):
         super().__init__(groups)
         self.sprite_type = "ennemy"
 
@@ -32,6 +33,7 @@ class monsters(pygame.sprite.Sprite):
         self.can_attack = True
         self.attack_cooldown = 300 # potentiellement placer en dico des monstres pour en créer des plus agressifs que d'autres
         self.attack_time = None
+        self.damage_player = damage_player
 
         # frame d'invulnérabilité
         self.vulnerable = True
@@ -73,6 +75,7 @@ class monsters(pygame.sprite.Sprite):
     def actions(self,player):
         if self.status =="attack":
             self.attack_time = pygame.time.get_ticks()
+            self.damage_player(self.attack, self.attack_type)
         elif self.status=="move":
             self.direction = self.get_player_distance_direction(player)[1]
         else:
@@ -89,6 +92,12 @@ class monsters(pygame.sprite.Sprite):
 
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
+
+        if not self.vulnerable:
+            alpha = self.wave_value()
+            self.image.pygame.Surface.set_alpha(alpha)
+        else :
+            self.image.pygame.Surface.set_alpha(255)
 
     def attacking_cooldown(self):
         current_time = pygame.time.get_ticks()
@@ -141,9 +150,14 @@ class monsters(pygame.sprite.Sprite):
         self.collision("vertical")
 
         self.rect.center = self.hitbox.center
-        
+    
+    def wave_value(self):
+        value = sin(pygame.time.get_ticks())
+        if value >= 0:
+            return 255
 
     def collision(self,direction):
+
         # Donc si un sprite du bestiau rentre en collision avec celui d'un obstacle
         # si il va vers la droite, on le renvoie vers la gauche, et vice versa
         if direction == "horizontal":

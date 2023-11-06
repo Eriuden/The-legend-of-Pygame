@@ -2,6 +2,7 @@ import pygame
 from pygame.sprite import _Group
 from Settings import *
 from Support import import_folder
+from math import sin
 
 class player(pygame.sprite.Sprite):
 
@@ -45,7 +46,10 @@ class player(pygame.sprite.Sprite):
         self.exp = 100
         self.speed = self.stats["agility"]
 
-        
+        self.vulnerable = True 
+        self.hurt_time = None 
+        self.invulnerability_duration = 500
+
     
     def import_player_assets(self):
         character_path = "../graphics/player"
@@ -190,6 +194,10 @@ class player(pygame.sprite.Sprite):
         if not self.can_switch_spell:
             if current_time - self.spell_switch_time >= self.switch_duration_cooldown:
                 self.can_switch_spell = True
+
+        if not self.vulnerable:
+            if current_time - self.hurt_time >= self.invulnerability_duration:
+                self.vulnerable = True
                 
     def animate(self):
         animation = self.animations[self.status]
@@ -201,11 +209,20 @@ class player(pygame.sprite.Sprite):
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
+        if self.vulnerable:
+            alpha = self.wave_value()
+            self.image.set_alpha(alpha)
+
     def get_weapon_full_damage(self):
         base_damage = self.stats["strength"]
         weapon_damage = weapon_data[self.weapon]["damage"]
         return base_damage + weapon_damage
     
+    def wave_value(self):
+        value = sin(pygame.time.get_ticks())
+        if value >= 0:
+            return 255
+        
     def update(self):
         self.input()
         self.cooldown()
