@@ -4,7 +4,7 @@ from Support import *
 from math import sin
 
 class monsters(pygame.sprite.Sprite):
-    def __init__(self, groups, monster_name, position, obstacle_sprites, damage_player):
+    def __init__(self, groups, monster_name, position, obstacle_sprites, damage_player, trigger_death_particles):
         super().__init__(groups)
         self.sprite_type = "ennemy"
 
@@ -34,6 +34,7 @@ class monsters(pygame.sprite.Sprite):
         self.attack_cooldown = 300 # potentiellement placer en dico des monstres pour en créer des plus agressifs que d'autres
         self.attack_time = None
         self.damage_player = damage_player
+        self.trigger_death_particles = trigger_death_particles
 
         # frame d'invulnérabilité
         self.vulnerable = True
@@ -123,6 +124,7 @@ class monsters(pygame.sprite.Sprite):
     def check_death(self):
         if self.health <= 0:
             self.kill()
+            self.trigger_death_particles(self.rect.center,self.monster_name)
 
     def hit_reaction(self):
         if not self.vulnerable:
