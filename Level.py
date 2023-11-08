@@ -129,6 +129,7 @@ class Level:
             self.player.health -= amount 
             self.player.vulnerable = False
             self.player.hurt_time = pygame.time.get_ticks()
+            
 class ySortCameraGroup(pygame.sprite.Group):
     def __init__(self):
 
