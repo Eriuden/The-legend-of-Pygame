@@ -11,6 +11,7 @@ from weapon import Weapon
 from ui import UI
 from Monsters import monsters
 from particles import AnimationPlayer
+from spell import SpellPlayer
 
 class Level:
     def __init__(self):
@@ -30,7 +31,8 @@ class Level:
 
         self.ui = UI()
 
-        self.animation_player = AnimationPlayer
+        self.animation_player = AnimationPlayer()
+        self.spell_player = SpellPlayer(self.animation_player)
         
     # enumerate est conseillé pour indexer un array
     # en énumerant ainsi les lignes, on peut faire la même avec les colonnes,
@@ -102,7 +104,11 @@ class Level:
         self.current_attack = Weapon(self. player, [self.visible_sprites])
 
     def cast_spell(self, style, strength, cost):
-        print("spell")
+        if style == "heal":
+            self.spell_player.heal(self.player, strength, cost, [self.visible_sprites])
+
+        if style == "flame":
+            pass
         
     def destroy_weapon(self):
         # si une attaque est en cours, on la supprime, et valeur nulle

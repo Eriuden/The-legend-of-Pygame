@@ -218,6 +218,12 @@ class player(pygame.sprite.Sprite):
         weapon_damage = weapon_data[self.weapon]["damage"]
         return base_damage + weapon_damage
     
+    def energy_recovery(self):
+        if self.energy <= self.stats["energy"]:
+            self.energy += 0.01 * self.stats["wisdom"]
+        else :
+            self.energy = self.stats["energy"]
+
     def wave_value(self):
         value = sin(pygame.time.get_ticks())
         if value >= 0:
