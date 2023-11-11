@@ -218,6 +218,11 @@ class player(pygame.sprite.Sprite):
         weapon_damage = weapon_data[self.weapon]["damage"]
         return base_damage + weapon_damage
     
+    def get_full_spell_damage(self):
+        base_damage = self.stats["wisdom"]
+        spell_damage = spell_data[self.spell]["damage"]
+        return base_damage + spell_damage
+    
     def energy_recovery(self):
         if self.energy <= self.stats["energy"]:
             self.energy += 0.01 * self.stats["wisdom"]

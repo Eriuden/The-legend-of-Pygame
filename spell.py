@@ -38,5 +38,5 @@ class SpellPlayer:
                 else:
                     offset_y = (direction.y * i) * TILESIZE
                     x = player.rect.centerx  + randint(-TILESIZE // 3, TILESIZE // 3)
-                    y = player.rect.centery + offset_x + randint(-TILESIZE // 3, TILESIZE // 3)
+                    y = player.rect.centery + offset_y + randint(-TILESIZE // 3, TILESIZE // 3)
                     self.animation.create_particles("flame", (x,y), groups)

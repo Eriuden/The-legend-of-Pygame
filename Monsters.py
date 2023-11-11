@@ -117,7 +117,7 @@ class monsters(pygame.sprite.Sprite):
             if attack_type == "weapon":
                 self.health -= player.get_full_weapon_damage()
             else:
-                pass
+                self.health -= player.get_full_spell_damage
             self.hit_time = pygame.time.get_ticks() 
             self.vulnerable = False
 
