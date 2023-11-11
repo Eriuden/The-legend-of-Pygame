@@ -108,7 +108,7 @@ class Level:
             self.spell_player.heal(self.player, strength, cost, [self.visible_sprites])
 
         if style == "flame":
-            pass
+            self.spell_player.flame(self.player, cost, [self.visible_sprites])
         
     def destroy_weapon(self):
         # si une attaque est en cours, on la supprime, et valeur nulle
