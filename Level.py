@@ -18,6 +18,9 @@ class Level:
 
         #surface d'affichage
         self.display_surface = ySortCameraGroup()
+
+        #menu
+        self.game_paused = False
         
         #Sprites
         self.visible_sprites = pygame.sprite.Group()
@@ -91,7 +94,8 @@ class Level:
                                      [self.visible_sprites,self.attackable_sprites],
                                      self.obstacle_sprites,
                                      self.damage_player,
-                                     self.trigger_death_particles)
+                                     self.trigger_death_particles,
+                                     self.add_exp)
 
                     # si on ne mets pas en array les obstacles, c'est car le joueur
                     # contrairement aux visibles, ne peut aller dedans
@@ -117,12 +121,16 @@ class Level:
         self.current_attack = None
     
     def run(self):
-        #mise à jour du jeu
+
         self.visible_sprites.custom_draw(self.player)
-        self.visible_sprites.update()
-        self.visible_sprites.ennemy_update(self.player)
-        self.ui.display(self.player)
-        self.player_attack_logic()
+        self.ui.display(self.player)   
+
+        if game_paused:
+            pass
+        else:
+            self.visible_sprites.update()
+            self.visible_sprites.ennemy_update(self.player)
+            self.player_attack_logic()   
     
     def player_attack_logic(self):
         if self.attack_sprites:
@@ -148,6 +156,12 @@ class Level:
     
     def trigger_death_particles(self,pos, particle_type):
         self.animation_player.create_particles(particle_type,pos,self.visible_sprites)
+
+    def add_exp(self, amount):
+        self.player.exp += amount
+
+    def toggle_menu(self):
+        self.game_paused = not self.game_paused
 class ySortCameraGroup(pygame.sprite.Group):
     def __init__(self):
 

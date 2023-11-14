@@ -41,9 +41,11 @@ class player(pygame.sprite.Sprite):
         
 
         self.stats = {"health" : 100, "energy": 60, "strength": 10, "wisdom": 4, "agility": 6}
+        self.max_stats = {"health" : 300, "energy": 150, "strength": 20, "wisdom": 15, "agility": 12}
+        self.upgrade_cost = {"health" : 100, "energy": 100, "strength": 100, "wisdom": 100, "agility": 100}
         self.health = self.stats["health"]
         self.energy = self.stats["energy"]
-        self.exp = 100
+        self.exp = 300
         self.speed = self.stats["agility"]
 
         self.vulnerable = True 
