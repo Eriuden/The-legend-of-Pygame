@@ -2,7 +2,6 @@ import pygame, sys
 from Settings import *
 from Debug import debug
 from Level import level 
-
 class Game:
     def __init__(self):
         pygame.init()
@@ -23,7 +22,7 @@ class Game:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_m:
-                        self.level(toggle_menu())
+                        self.level(self.toggle_menu())
 
             self.screen.fill("black")
             self.level.run()

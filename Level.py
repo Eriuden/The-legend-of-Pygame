@@ -12,6 +12,7 @@ from ui import UI
 from Monsters import monsters
 from particles import AnimationPlayer
 from spell import SpellPlayer
+from upgrade import Upgrade
 
 class Level:
     def __init__(self):
@@ -33,6 +34,7 @@ class Level:
         self.create_map()
 
         self.ui = UI()
+        self.upgrade = Upgrade(self.player)
 
         self.animation_player = AnimationPlayer()
         self.spell_player = SpellPlayer(self.animation_player)
@@ -125,8 +127,8 @@ class Level:
         self.visible_sprites.custom_draw(self.player)
         self.ui.display(self.player)   
 
-        if game_paused:
-            pass
+        if self.game_paused:
+            self.upgrade.display()
         else:
             self.visible_sprites.update()
             self.visible_sprites.ennemy_update(self.player)
