@@ -164,6 +164,7 @@ class Level:
 
     def toggle_menu(self):
         self.game_paused = not self.game_paused
+        
 class ySortCameraGroup(pygame.sprite.Group):
     def __init__(self):
 
