@@ -8,17 +8,34 @@ class Upgrade:
         self.attribute_number = len(player.stats)
         self.attribute_names = list(player.stats.keys)
         self.font = pygame.font.Font(UI_FONT, UI_FONT_SIZE)
+
+        self.selection_index = 0
+        self.selection_time = None 
+        self.can_move = True
         
     def input(self):
         keys = pygame.key.pygame.get_pressed()
 
-        if keys[pygame.K_RIGHT]:
-            pass 
-        elif keys[pygame.K_LEFT]:
-            pass
-        if keys[pygame.K_SPACE]:
-            pass
+        if self.can_move:
+            if keys[pygame.K_RIGHT] and self.selection_index < self.attribute_number:
+                self.selection_index += 1 
+                self.can_move = False
+                self.selection_time = pygame.time.get_ticks()
 
+            elif keys[pygame.K_LEFT]and self.selection_index > self.attribute_number:
+                self.selection_index -=1
+                self.can_move = False
+                self.selection_time = pygame.time.get_ticks()
+
+            if keys[pygame.K_SPACE]:
+                pass
+
+    def selection_cooldown(self):
+        if not self.can_move:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.selection_index >= 300:
+                self.can_move = True 
 
     def display(self):
-        self.display_surface.fill("black")
+        self.input()
+        self.selection_cooldown()
