@@ -225,6 +225,12 @@ class player(pygame.sprite.Sprite):
         spell_damage = spell_data[self.spell]["damage"]
         return base_damage + spell_damage
     
+    def get_value_by_index(self,index):
+        return list(self.stats.values())[index]
+    
+    def get_cost_by_index(self,index):
+        pass 
+    
     def energy_recovery(self):
         if self.energy <= self.stats["energy"]:
             self.energy += 0.01 * self.stats["wisdom"]
