@@ -26,14 +26,14 @@ class player(pygame.sprite.Sprite):
         self.obstacle_sprites = obstacle_sprites
 
         self.attack = attack()
-        self.destroy_attack = destroy_attack
+        self.destroy_attack = destroy_attack()
         self.weapon_index = 0
         self.weapon = list(weapon_data.keys())[self.weapon_index]
         self.can_switch_weapon = True
         self.weapon_switch_time = None
         self.switch_duration_cooldown = 200
 
-        self.cast_spell = cast_spell
+        self.cast_spell = cast_spell()
         self.spell_index = 0
         self.spell = list(spell_data.keys())[self.spell_index]
         self.can_switch_spell = True
