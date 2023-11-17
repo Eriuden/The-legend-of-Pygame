@@ -229,7 +229,7 @@ class player(pygame.sprite.Sprite):
         return list(self.stats.values())[index]
     
     def get_cost_by_index(self,index):
-        pass 
+        return list(self.upgrade_cost.values())[index]
     
     def energy_recovery(self):
         if self.energy <= self.stats["energy"]:
@@ -247,4 +247,5 @@ class player(pygame.sprite.Sprite):
         self.cooldown()
         self.get_status()
         self.animate()
-        self.move(self.speed)
+        self.move(self.stats["speed"])
+        self.energy_recovery()
