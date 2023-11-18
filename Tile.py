@@ -7,6 +7,7 @@ class tile(pygame.sprite.Sprite):
 
         self.image = surface
         self.sprite_type = sprite_type
+        y_offset = HITBOX_OFFSET[sprite_type]
 
         if sprite_type == "object":
             self.rect = self.image.get_rect(topleft = (position[0],position[1] - TILESIZE))
@@ -15,5 +16,5 @@ class tile(pygame.sprite.Sprite):
             
         #inflate permet de réduire la hitbox pour une collision plus propre
         # par exemple, avoir quand même la tête face à l'obstacle en haut
-        self.hitbox = self.rect.inflate(0,-10)
+        self.hitbox = self.rect.inflate(0,y_offset)
 

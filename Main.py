@@ -13,6 +13,11 @@ class Game:
 
         self.level = level()
 
+        main_sound = pygame.mixer.Sound("../audio/main.ogg")
+        main_sound.set_volume(0.5)
+        # loops -1 permet de jouer indéfiniment ce son
+        main_sound.play( loops= -1)
+
     def run(self):
         while True:
             #Fonction pour quitter l'appli
@@ -24,7 +29,7 @@ class Game:
                     if event.key == pygame.K_m:
                         self.level(self.toggle_menu())
 
-            self.screen.fill("black")
+            self.screen.fill(WATER_COLOR)
             self.level.run()
             debug("")
             pygame.display.update()
